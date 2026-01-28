@@ -2,12 +2,12 @@ package com.example.account_service.service;
 
 import com.example.account_service.dto.CustomerDto;
 import com.example.account_service.entity.Accounts;
+import com.example.account_service.exceptions.AccountNotFound;
 import com.example.account_service.feign.CustomerClient;
 import com.example.account_service.repository.AccountsRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class AccountServiceImpl implements AccountServices{
         CustomerDto newCustomer=
                 customerClient.getCustomerById(accounts.getCustomerId());
         if (newCustomer == null) {
-            throw new RuntimeException(
+            throw new AccountNotFound(
                     "Customer not found with id: " + accounts.getCustomerId()
             );
         }
@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountServices{
         Accounts accBalance=accountsRepo.findByAccountId(accountNo);
         if (accBalance==null)
         {
-            throw new RuntimeException("Account Not Found"+accountNo);
+            throw new AccountNotFound("Account Not Found"+accountNo);
         }
          accBalance.setBalance(accBalance.getBalance() + amount);
          accountsRepo.save(accBalance);
