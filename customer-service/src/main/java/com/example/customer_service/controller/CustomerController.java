@@ -4,6 +4,7 @@ import com.example.customer_service.dto.CustomerDto;
 import com.example.customer_service.entity.Customer;
 import com.example.customer_service.service.CustomerServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,12 @@ public class CustomerController {
     private final CustomerServices services;
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers(){
-        List<Customer> getAll=services.getAllCustomers();
+    public ResponseEntity<Page<Customer>>
+    getAllCustomers(@RequestParam(defaultValue = "0") int pageNo,
+                    @RequestParam(defaultValue = "2") int pageSize,
+                    @RequestParam(defaultValue = "customerName") String sortBy,
+                    @RequestParam(defaultValue = "asc") String sortDir){
+        Page<Customer> getAll=services.getAllCustomers(pageNo,pageSize,sortBy,sortDir);
         return ResponseEntity.ok(getAll);
     }
     @GetMapping("/{id}")

@@ -1,7 +1,6 @@
 package com.example.account_service.entity;
 
 
-import com.fasterxml.jackson.databind.node.DoubleNode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

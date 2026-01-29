@@ -25,9 +25,9 @@ public class AccountController {
     }
     @PutMapping("/balance")
     public ResponseEntity<Void>
-                        updateBalance(@RequestParam Long accountId,
-                                      @RequestParam Double signedAmount){
-        services.updateBalance(accountId, signedAmount);
+                        updateBalance(@RequestParam("accountId") Long accountId,
+                                      @RequestParam("amount") Double amount){
+        services.updateBalance(accountId, amount);
         return ResponseEntity.noContent().build();
     }
 }

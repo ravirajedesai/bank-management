@@ -5,6 +5,10 @@ import com.example.customer_service.entity.Customer;
 import com.example.customer_service.exceptions.CustomerNotFound;
 import com.example.customer_service.repository.CustomerRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +20,15 @@ public class CustomerServiceImpl implements CustomerServices{
     private final CustomerRepo customerRepo;
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return customerRepo.findAll();
+    public Page<Customer> getAllCustomers(int pageNo,
+                                          int pageSize,
+                                          String sortBy,
+                                          String sortDir) {
+        Sort sort=sortDir.equalsIgnoreCase("asc")
+                ?Sort.by(sortBy).ascending()
+                :Sort.by(sortBy).descending();
+        Pageable pageable= PageRequest.of(pageNo,pageSize,sort);
+        return customerRepo.findAll(pageable);
     }
 
     @Override

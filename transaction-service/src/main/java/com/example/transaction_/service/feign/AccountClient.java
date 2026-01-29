@@ -15,5 +15,5 @@ public interface AccountClient {
 
     @PutMapping("/accounts/balance")
     void updateBalance(@RequestParam Long accountId,
-                       @RequestParam Double signedAmount);
+                       @RequestParam Double amount);
 }

@@ -39,12 +39,16 @@ public class AccountServiceImpl implements AccountServices{
 
     @Override
     public Accounts getAccountByAccountNo(Long accountId) {
-        return accountsRepo.findByAccountId(accountId);
+        return accountsRepo.findById(accountId)
+                .orElseThrow(()->
+                        new RuntimeException("Account Not Found: "+accountId));
     }
 
     @Override
     public void updateBalance(Long accountNo,Double amount){
-        Accounts accBalance=accountsRepo.findByAccountId(accountNo);
+        Accounts accBalance=accountsRepo.findById(accountNo)
+                .orElseThrow(()->
+                        new AccountNotFound("Account Not Found: "+accountNo));
         if (accBalance==null)
         {
             throw new AccountNotFound("Account Not Found"+accountNo);
